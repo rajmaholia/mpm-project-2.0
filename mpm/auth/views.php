@@ -1,11 +1,13 @@
 <?php
 if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
 require_once 'mpm/auth/forms.php';
-use Mpm\Auth\{UserLoginForm,UserCreationForm};
+use Mpm\Auth\{UserLoginForm,UserCreationForm, PasswordChangeForm};
 use function Mpm\View\render;
 use function Mpm\Validation\{test_input,checkequal,cleaned_data};
 use function Mpm\Database\{db_read,db_column_exists,db_insert};
 use function Mpm\Urls\redirect;
+use function Mpm\Auth\login_required;
+
 
 function login($server){
   $form = new UserLoginForm();

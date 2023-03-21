@@ -1,5 +1,5 @@
 <?php
-if(php_sapi_name()!='cli' && isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI']=="/manage") {
+if(php_sapi_name()!='cli') {
   exit("<h1>Access Denied </h1> ");
 }
 
