@@ -1,6 +1,4 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
-require_once('mpm/urls/functions.php');
 use function Mpm\Urls\{path,includes};
 
 /*patterns

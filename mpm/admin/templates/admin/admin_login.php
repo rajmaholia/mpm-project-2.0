@@ -1,6 +1,5 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
- require_once 'mpm/admin/components/header_code.php'; ?>
+require_once 'mpm/admin/components/header_code.php'; ?>
 <?php require_once 'mpm/admin/components/nav.php'; ?>
 <div class="container">
   <form action="" method="post">

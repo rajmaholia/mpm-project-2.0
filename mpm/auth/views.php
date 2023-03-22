@@ -1,6 +1,4 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
-require_once 'mpm/auth/forms.php';
 use Mpm\Auth\{UserLoginForm,UserCreationForm, PasswordChangeForm};
 use function Mpm\View\render;
 use function Mpm\Validation\{test_input,checkequal,cleaned_data};
@@ -105,5 +103,3 @@ function password_change_done($server){
   global $user;
   return render($server,'auth/password_change_done.php',array("user"=>$user));
 }
-
-?>

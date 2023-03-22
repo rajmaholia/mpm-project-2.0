@@ -1,7 +1,5 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
-require_once('mpm/functions.php');
-
+use function Mpm\Urls\{path,includes};
 /*patterns
 array(
     'path'=>"/blog_detail/(?P<id>\d+)/",

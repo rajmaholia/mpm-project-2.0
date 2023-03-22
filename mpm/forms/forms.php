@@ -20,8 +20,6 @@
  */
 namespace Mpm\Forms;
 
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
-
 define("FIELD_ID_PREFIX","id-");
 define("FIELD_LABEL_ID_PREFIX", "id-label-");
 define("FIELD_CLASS" , "class-form-control");

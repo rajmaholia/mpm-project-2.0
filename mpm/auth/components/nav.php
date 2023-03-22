@@ -1,4 +1,4 @@
- <?php if(!defined('SECURE')) exit('<h1>Access Denied</h1>');?>
+
   <nav class="navbar navbar-dark bg-primary px-1 ">
     <div class="navbar-brand text-center px-auto"><?php echo PROJECT_NAME;?> Administration</div>
     <?php if($user->is_staff==1) {?>

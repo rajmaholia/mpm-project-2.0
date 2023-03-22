@@ -1,6 +1,3 @@
-<?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
-?>
 <!doctype html>
 <html lang="en">
   <head>

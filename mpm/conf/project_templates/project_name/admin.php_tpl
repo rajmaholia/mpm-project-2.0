@@ -1,7 +1,4 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
-
-
 define("SITE_MODELS", [
   "User",//default authentication model
 ]);

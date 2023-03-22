@@ -1,5 +1,4 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
 use function Mpm\Urls\path;
 
 $urlpatterns = [

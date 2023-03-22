@@ -1,7 +1,6 @@
 <?php
 namespace Mpm\Auth;
 use function Mpm\Urls\path;
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>'); 
 
 $urlpatterns = [
   path(

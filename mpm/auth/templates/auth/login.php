@@ -1,5 +1,4 @@
 <?php
-if(!defined('SECURE')) exit('<h1>Access Denied</h1>');
 require "mpm/auth/components/header_code.php"
 ?>
 <div class="container">
