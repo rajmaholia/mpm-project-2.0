@@ -1,5 +1,5 @@
 <?php
-require_once 'mpm/core/autoloader.php';
+require_once 'mpm/core/Autoloader.php';
 require_once 'config/settings.php';
 require_once 'config/admin.php';
 
