@@ -108,5 +108,3 @@ class Model {
  }
 }
 
-$model = new testModel("test");
-$model->generate_form();
