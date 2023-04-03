@@ -17,7 +17,10 @@
     <form action="" <?php if (isset($enctype)) echo($enctype) ?> method="post">
       <?php 
       echo $form->render_form();
-      if($form->hasFileField()) render_files($form,$filesData);
+      if($form->hasFileField()) render_files($form);
+      echo render_tag_offset("after","input:name=fullname","label",["class"=>"form-label","id"=>"label-password"],"Password");
+      echo render_tag_offset("after","label:id=label-password","p",["id"=>"id-password"],wordwrap($form->values()->password,35,"<br>", true));
+      echo render_tag_offset("after","p:id=id-password","a",["href"=>reverse("admin_password_change",[$id])],"Change Password");
       ?>
       <button class="btn btn-primary">Save</button>
     </form>

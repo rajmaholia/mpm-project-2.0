@@ -1,7 +1,15 @@
 <?php
 use function Mpm\Database\db_read;
 
-function reverse($name,$arguments=array()){
+
+/**
+ * Get a name and return Url associated with it from urls.php 
+ * 
+ * @param string $name 
+ * @param array $arguments 
+ * @return string 
+ */
+function reverse($name,$args=[]){
   //return absolute url of url_name;
   global $urlpatterns;
   $path = array_column($urlpatterns,0,2)[$name];
@@ -11,17 +19,24 @@ function reverse($name,$arguments=array()){
   $count=0;
   foreach($arra as $key=>&$value) {
     if(preg_match($pattern,$value)){
-      $value = $arguments[$count];
+      $value = $args[$count];
       $count++;
     }
   }
   $url = implode('/',$arra);
   $url = substr(trim($path),0,1)=="/"?"/".$url:$url;
   $url = substr(trim($path),-1,1)=="/"?$url."/":$url;
-  if(count($arra)==0) return "/";
-  return $url;
+  if(count($arra)==0) $url="/";
+  else  return $url;
 }
 
+/**
+ * Checks all apps that are  registered in settings.php in INSTALLED_APPS array for given filename under app's  static folder 
+ * and returns full path of file if it matched any .
+ * 
+ * @param string $staticfile 
+ * @return string 
+ */
 function staticfile($staticfile){
   $dirs = STATICFILES["DIRS"];
     $dirs = array_merge($dirs,APPS);
@@ -34,3 +49,31 @@ function staticfile($staticfile){
     }
   return "";
 }
+
+/**
+ * @param string|int $value value to echo 
+ * @param string|int $default default value 
+ */
+function echo_safe($value,$default="") {
+  $value = (isset($value))?$value:$default;
+  echo($value);
+}
+
+/**
+ * An alias of reverse. But it uses echo(<$url>)  instead of return <$url> 
+ * 
+ * @param string $name 
+ * @param array $args
+ */
+function url($name,$args=[]){
+  $url = reverse($name,$args);
+  echo $url;
+}
+
+function rurl($name,$args=[]){
+  $url = reverse($name,$args);
+  return $url;
+}
+
+
+

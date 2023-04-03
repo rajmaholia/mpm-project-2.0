@@ -1,7 +1,7 @@
 <?php require_once 'mpm/admin/components/header_code.php'; ?>
 <?php require_once 'mpm/admin/components/nav.php'; ?>
 
-<div class="container">
+<div class="container-fluid">
   <!-- header -->
   <div class="row sticky-top">
    <nav style="--bs-breadcrumb-divider: '>';background-color:#d36bca;" aria-label="breadcrumb" class=" p-2">
@@ -11,13 +11,13 @@
       <li class="breadcrumb-item active text-muted" aria-current="page">New</li>
     </ol>
    </nav>
-</div>
+  </div>
   <!-- header END-->
   <div class="container">
-    <form action="" method="post">
+    <form action="" <?php if (isset($enctype)) echo($enctype) ?> method="post">
       <?php echo $form->render_form();?>
       <button class="btn btn-primary">Save</button>
     </form>
   </div>
-  
+</div>
 <?php require_once 'mpm/admin/components/footer_code.php'; ?>

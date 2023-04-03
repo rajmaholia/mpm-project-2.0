@@ -28,14 +28,4 @@ $urlpatterns = [
     view:'password_change_done',
     name:'password_change_done'
    ),
-  path(
-    url:'/404/',
-    view:'page_not_found',
-    name:'404'
-   ),
-  path(
-    url:'/permission-denied/',
-    view:'permission_denied',
-    name:'permission_denied'
-   ),
 ];

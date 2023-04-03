@@ -41,43 +41,12 @@ function checkequal($data1,$data2){
 
 function cleaned_data($data){
   $cleaned_data = array();
-  foreach($data as $key=>$value){
-    $cleaned_data[$key] = test_input($value);
+  foreach($data as $key=>$data){
+    $data = trim($data);
+    $data = htmlspecialchars($data);
+    $data = stripslashes($data);
+    $cleaned_data[$key] = $data;
   }
   return $cleaned_data;
 }
-
-
-class Validator {
-  public  static function checkregex($value,$regex){
-    $regex = "@^".$regex."$@";
-    return preg_match($regex,$value);
-  }
-  
-  public static function  checkequal($data1,$data2){
-    return ($data1===$data2)?true:false;
-  }
-  
-  public static function checkemail($email){
-   return filter_var($email,FILTER_VALIDATE_EMAIL)?true:false;
-  }
-  
-  public static function checklength($data,$length,$fixed=false) {
-    if($fixed === true && strlen($data)!=$length) {
-      return false;
-    }else {
-      if(strlen($data) <= $length) {
-        return true;
-      } elseif(strlen($data)>$length) {
-        return false;
-      }
-    }
-  }//checklength
-
-  public static function checkempty($data){
-    $data = trim($data);
-    return empty($data)?true:false;
-  }
-  
-}//class Validator
 ?>

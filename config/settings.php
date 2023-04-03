@@ -5,8 +5,10 @@ define("PROJECT_NAME","MPM");
 
 define("BASE_DIR",realpath("./"));
 define("BASE_PATH","./");
-$base_url = isset($_SERVER['HTTPS'])&& $_SERVER['HTTPS']==='on' ? "https":"http"."://".$_SERVER['HTTP_HOST'].'/';
-define("BASE_URL",$base_url);
+if(php_sapi_name()!="cli") {
+  $base_url = isset($_SERVER['HTTPS'])&& $_SERVER['HTTPS']==='on' ? "https":"http"."://".$_SERVER['HTTP_HOST'].'/';
+  define("BASE_URL",$base_url);
+}
 
 define("DEBUG", true);
 /***  APPS **/
@@ -35,7 +37,8 @@ define('STATICFILES',[
 ]);
 
 
-
+define("MEDIA_URL","/media/");
+define("MEDIA_ROOT",BASE_DIR."/media/");
 define("UPLOAD_PATH",'uploads/');
 define("LOGIN_REDIRECT_URL","home");
 define("LOGOUT_REDIRECT_URL","home");

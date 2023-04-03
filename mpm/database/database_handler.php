@@ -1,6 +1,6 @@
 <?php
 namespace Mpm\Database;
-use function Mpm\Utils\quote as quote;
+use function Mpm\Utils\{quote,normalize};
 
 
 function db_connect($database=true){
@@ -73,6 +73,7 @@ function db_read($table,$data=array(),array $filter=array(),$filterOperator='AND
     return false;
   }
   $data =  mysqli_fetch_all($result,$returnType);
+  $data = normalize($data);
   mysqli_close($conn);
   return $data;
 }
@@ -100,12 +101,19 @@ function db_update($table,array $data,array $filter = array(),$filterOperator = 
 }
 
 
-function db_delete($table,array $filter=array(),$operator='AND') {
+function db_delete($table,array $filter=[],$operator='AND') {
   $conn = db_connect();
   $law = '';
   $operation = '';
   foreach ($filter as $key=>$value){
-    $law .= $operation." $key = '$value' ";
+    if(is_array($value)) {
+      $value = trim(json_encode($value));
+      $value = str_replace("[","(",$value);
+      $value = str_replace("]",")",$value);
+      $law .= $operation." $key in $value";
+    } else {
+      $law .= $operation." $key = '$value' ";
+    }
     $operation = $operator;
   }
   $where = ($filter!=null && count($filter)>0)?"WHERE":" ";

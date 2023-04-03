@@ -22,10 +22,25 @@ function http_redirect($url) {
   header("Location:".$url);
 }
 
+/**
+ * Gets Urls , Views , Name of url and Wrap them all in an array respective order and return it .
+ * 
+ * @param string $url 
+ * @param string $view
+ * @param string|null $name 
+ * @return array
+ */
 function path($url,$view,$name=null){
   return array($url,$view,$name);
 }
 
+/**
+ * Get a name and return Url associated with it from urls.php 
+ * 
+ * @param string $name 
+ * @param array $arguments 
+ * @return string 
+ */
 function reverse($name,$arguments=array()){
   //return absolute url of url_name;
   global $urlpatterns;

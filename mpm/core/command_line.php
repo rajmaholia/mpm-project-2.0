@@ -1,7 +1,6 @@
 <?php
 namespace Mpm\Core;
-use function Mpm\Core\{db_connect,db_read};
-use function Mpm\Database\{read_from_file,read_query};
+use function Mpm\Database\{db_connect,db_read,read_from_file,read_query,table_exists};
 
 function execute_from_command_line($arguments)
 {
@@ -45,7 +44,7 @@ switch($arguments[1]) {
     try {
       $conn = db_connect();
     }
-    catch(Exception $e) {
+    catch(\Exception $e) {
       echo $e->getMessage()."\n";
       echo("Run `php manage migrate`.\n");
       exit("Quitting ... \n");
@@ -57,7 +56,7 @@ switch($arguments[1]) {
       exit();
     }
     try {
-      $response = mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',b'1')");
+      $response = mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',1)");
     } catch(Exception $e) {
        echo $e->getMessage();
        exit("\nQuitting ... \n");
@@ -67,8 +66,8 @@ switch($arguments[1]) {
     break;
   
   case 'makemigrations':
-    $app_name = $arguments[2];
-    if(!isset($app_name)) exit("Usage :  `php manage makemigrations <app>\n");
+    if(!isset($arguments[2])) exit("Usage :  `php manage makemigrations <app>\n");
+    else $app_name = $arguments[2];
     $db = DATABASE;
     try{
       $conn = mysqli_connect($db['host'],$db['username'],$db['password'],$db['database']);

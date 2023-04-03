@@ -11,23 +11,26 @@ function login($server){
   $form = new UserLoginForm();
   if($server["REQUEST_METHOD"]=="POST") {
     $form->fill_form($_POST);
-    $username = test_input($_POST['username']);
-    $password = test_input($_POST['password']);
-    $result = db_read('User',filter:array('username'=>$username));
-    if(count($result)>0) {
+    if($form->is_valid) {
+      $cd = cleaned_data($_POST);
+      $username = $cd['username'];
+      $password = $cd['password'];
+      $result = db_read('User',filter:array('username'=>$username));
+      if(count($result)>0) {
       $row = $result[0];
       if(password_verify($password,$row['password'])){
-        
-        $_SESSION['user'] = array();
-        foreach($row as $key=>$value) {
-         $_SESSION['user'][$key] = $value;
-        }
-        redirect(reverse(LOGIN_REDIRECT_URL));
-      } else {
-        $form->error_list['password'] = array("Password is not correct");
+      
+      $_SESSION['user'] = array();
+      foreach($row as $key=>$value) {
+       $_SESSION['user'][$key] = $value;
       }
-    } else {
+      redirect(reverse(LOGIN_REDIRECT_URL));
+      } else {
+      $form->error_list['password'] = array("Password is not correct");
+      }
+      } else {
       $form->error_list['username'] = array("Username doesn't exist");
+      }
     }
   }
   return render($server,'auth/login.php', array('form'=>$form));
@@ -36,25 +39,25 @@ function login($server){
 function signup($server){
   $form = new UserCreationForm();
   if($server['REQUEST_METHOD'] == "POST") {
-  $form->fill_form($_POST);
-  if(count($form->get_errors())==0){
-    $passwordEqual = checkequal(test_input($_POST['password']),test_input($_POST['confirm_password']));
-    if($passwordEqual==false){
-     $form->error_list['confirm_password']=array("Both passwords Must be same");
-    } else {
+    $form->fill_form($_POST);
+    if($form->is_valid){
       $data = cleaned_data($_POST);
-      $fields = UserCreationForm::$fields;
-      $data_array = array();
-      foreach($fields as $key=>$value) {
-        $data_array[$value] = $data[$value];
+      $passwordEqual = checkequal($data['password'],$data['confirm_password']);
+      if($passwordEqual==false){
+       $form->error_list['confirm_password']=array("Both passwords Must be same");
+      } else {
+        $fields = UserCreationForm::$fields;
+        $data_array = array();
+        foreach($fields as $key=>$value) {
+          $data_array[$value] = $data[$value];
+        }
+        $data_array['password'] = password_hash($data_array['password'], PASSWORD_DEFAULT);
+       $res =  db_column_exists('User',data:array('username'=>$data_array['username']))?$form->error_list['username']=array("Username already exists"):db_insert('User',data:$data_array);
+       if(is_int($res)){
+         redirect(reverse('login'));
+       }
       }
-      $data_array['password'] = password_hash($data_array['password'], PASSWORD_DEFAULT);
-     $res =  db_column_exists('User',data:array('username'=>$data_array['username']))?$form->error_list['username']=array("Username already exists"):db_insert('User',data:$data_array);
-     if(is_int($res)){
-       redirect(reverse('login'));
-     }
     }
-  }
   }
   return render($server,'auth/signup.php', array('form'=>$form));
 }

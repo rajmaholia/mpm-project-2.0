@@ -1,21 +1,5 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard | <?php echo PROJECT_NAME; ?></title>
-    <link rel="stylesheet" href="<?php echo staticfile("admin/css/base.css"); ?>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-  </head>
-<body>
- <nav class="navbar navbar-dark bg-primary px-1 ">
-    <div class="navbar-brand text-center px-auto"><?php echo PROJECT_NAME;?> Administration</div>
-    <div class="nav">
-      <a href ="/" class="nav-link text-info">View Site</a>
-      <a href ="#" class="nav-link text-info disabled">/</a>
-      <a href="<?php echo reverse('logout'); ?>" class="nav-link text-info">Logout</a>
-    </div>
-  </nav>
+<?php require_once 'mpm/admin/components/header_code.php'; ?>
+<?php require_once 'mpm/admin/components/nav.php'; ?>
 <!-- Container -->
 <div class="container-fluid">
   <div class="row mt-4">
@@ -49,9 +33,4 @@
       </div>
     </div> <!-- col sm 4 -->
   </div>
-</div>
-
-<!-- Container -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-  </body>
-</html>
+<?php require_once 'mpm/admin/components/footer_code.php'; ?>

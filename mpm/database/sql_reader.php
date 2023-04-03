@@ -16,7 +16,7 @@ function read_from_file($conn,$file){
   	     if ($endWith == ';') {
   	       try{
   		       mysqli_query($conn,$query);
-  	       }catch(Exception $e){
+  	       }catch(\Exception $e){
   		       echo "\n[ERROR]\n Problem in executing the SQL query :\n\t\"" . trim($query) ."\" \n\n";
   		       echo "REASON : ".mysqli_error($conn)."\n\n";
   		     $query= '';		
@@ -35,7 +35,7 @@ function read_query($conn,$sql) {
       echo "\nReading `". substr($query,0,25)." ....)`\n";
       mysqli_query($conn,$query);
       echo "[Done]";
-    } catch(Exception $e) {
+    } catch(\Exception $e) {
       echo "[ERROR] : ".mysqli_error($conn);
     }
     echo "\n\n";

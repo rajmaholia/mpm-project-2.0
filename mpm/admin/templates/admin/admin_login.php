@@ -1,6 +1,6 @@
 <?php
-require_once 'mpm/admin/components/header_code.php'; ?>
-<?php require_once 'mpm/admin/components/nav.php'; ?>
+require_once 'mpm/admin/components/header_code.php';
+require_once 'mpm/admin/components/nav.php'; ?>
 <div class="container">
   <form action="" method="post">
     <?php echo $form->render_form();?>

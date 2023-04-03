@@ -19,8 +19,8 @@ $urlpatterns = [
   ),
   path(
     url:'/admin/User/(?P<user>\d+)/auth/password-change/',
-    view:'password_change',
-    name:'password_change'
+    view:'change_password',
+    name:'admin_password_change'
   ),
   
   path(
@@ -29,12 +29,17 @@ $urlpatterns = [
     name:'object_create'
   ),
   path(
+    url:'/admin/User/edit/(?P<id>\d+)/',
+    view:'change_user',
+    name:'change_user'
+  ),
+  path(
     url:'/admin/(?P<table>\w+)/edit/(?P<id>\d+)/',
     view:'object_edit',
     name:'object_edit'
   ),
   path(
-    url:'/admin/(?P<table>\w+)/delete/(?P<id>\d+)/',
+    url:'/admin/(?P<table>\w+)/delete/',
     view:'object_delete',
     name:'object_delete'
   ),
@@ -48,4 +53,19 @@ $urlpatterns = [
     view:'admin_dashboard',
     name:'admin_dashboard'
   ),
+  path(
+    url:'/404/',
+    view:'page_not_found',
+    name:'404'
+   ),
+  path(
+    url:'/permission-denied/',
+    view:'permission_denied',
+    name:'permission_denied'
+   ),
+  path(
+    url:'/media/(?P<medianame>.+)/',
+    view:'media_url',
+    name:'media_url'
+   ),
   ];
