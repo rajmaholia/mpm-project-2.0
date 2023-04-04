@@ -1,15 +1,23 @@
 <?php
 namespace Mpm\Forms;
 
+define("FIELD_CONTAINER_CLASS","form-field");
+define("FIELD_CONTAINER_ID_PREFIX","id-form-field-");
 define("FIELD_ID_PREFIX","id-");
-define("FIELD_LABEL_ID_PREFIX", "id-label-");
-define("FIELD_CLASS" , "class-form-control");
-define("FIELD_LABEL_CLASS","class-form-label");
-define("RADIOGROUP_CLASS","class-radio-group");
-define("RADIOGROUP_ID_PREFIX", "id-radio-group-");
-define("SELECTGROUP_CLASS","class-select-group");
-define("SELECTGROUP_ID_PREFIX", "id-select-group-");
-define("ERROR_PREFIX", "error-");
+define("FIELD_LABEL_ID_PREFIX","id-label-");
+define("FIELD_CLASS","form-control");
+define("FIELD_LABEL_CLASS","form-label");
+define("RADIOGROUP_CLASS","form-check");
+define("RADIOFIELD_CLASS","form-check-input");
+define("RADIOFIELD_LABEL_CLASS","form-check-label");
+define("RADIOGROUP_ID_PREFIX","id-radio-group-");
+define("SELECTGROUP_CLASS","form-select");
+define("ERROR_PREFIX","error-");
+define("ERROR_CLASS","error-list");
+define("CHECKFIELD_CLASS","form-check-input");
+define("CHECKFIELD_DIV_CLASS","form-check");
+define("CHECKFIELD_LABEL_CLASS","form-check-label");
+
 
 
 class TextField extends Field {
@@ -29,25 +37,25 @@ class TextField extends Field {
     $idLabel = $this->generateId(FIELD_LABEL_ID_PREFIX,$this->label);
     $idError = $this->generateId(ERROR_PREFIX,$this->label);
     $idArray = array($idLabel,$idInput);
-    if($this->lap==true){
-          $this->placeholder = $this->label;
-    }
+    if($this->lap==true) $this->placeholder = $this->label;
     if(!empty($this->label) && $this->showLabel) {
-      $labell = "<label class='class-form-label' id='$idArray[0]'>$this->label</label>";
+      $labell = "<label class='".FIELD_LABEL_CLASS."' id='{$idLabel}'>$this->label</label>";
     }
+          
     $errors = "";
     foreach($this->error_list as $error){
       $errors.="<li>{$error}</li>";
     }
     
-    $textarea= "<textarea name='$this->name'  rows=\"$this->rows\" cols=\"$this->cols\" class='class-form-control' id=\"$idArray[1]\" style='width:100%' placeholder=\"$this->placeholder\">{$this->value}</textarea>
-    <ul class='error error-list' id='$idError'>{$errors}
-    </ul>
+    $textarea= "
+    <textarea name='{$this->name}'  rows='{$this->rows}' cols='{$this->cols}' class='".FIELD_CLASS."' id='{$idInput}'  placeholder='{$this->placeholder}'>{$this->value}</textarea>
+    <ul class='".ERROR_CLASS."' id='{$idError}'>{$errors}</ul>
     ";
-    $htmlCode = "<div class='form-field'>".$labell . $textarea."</div>";
+    $htmlCode = "<div class='".FIELD_CONTAINER_CLASS."' >{$labell} {$textarea}</div>";
     return $htmlCode;
   }
 }
+
 
 class InputField extends Field {
  
@@ -71,19 +79,20 @@ class InputField extends Field {
        $this->placeholder = $this->label;
     }
     if(!empty($this->label) && $this->showLabel){
-      $labell = "<label class=\"class-form-label\"  id=\"$idArray[0]\">$this->label</label>";
+      $labell = "<label class='".FIELD_LABEL_CLASS."'  id='{$idArray[0]}'>$this->label</label>";
     }
       $errors = "";
       foreach($this->error_list as $error){
         $errors.="<li>{$error}</li>";
       }
 
-      $input = "<input type='$this->type'   name='$this->name' class='class-form-control' id=\"$idArray[1]\"  style='display: block;width:100%; font-size:16px;' placeholder=\"$this->placeholder\" value=\"$this->value\"/>
-        <ul class='error error-list' id='$idError'>{$errors}</ul>
+      $input = "<input type='{$this->type}' name='{$this->name}' class='".FIELD_CLASS."' id='{$idArray[1]}'  placeholder='{$this->placeholder}' value='{$this->value}'/>
+        <ul class='".ERROR_CLASS."' id='{$idError}'>{$errors}</ul>
       ";
-    return  "<div class='form-field'>".$labell . $input."</div>";
+    return  "<div class='".FIELD_CONTAINER_CLASS."'>{$labell} {$input}</div>";
   }
 }
+
 
 class NumberField extends InputField{
   function __construct($label,$validation=["required"=>true,"maxlength"=>12],$showLabel=true,$lap=false,$placeholder=""){
@@ -100,12 +109,14 @@ class EmailField extends InputField{
   }
 }
 
+
 class DateField extends InputField {
   function __construct($label,$showLabel=true,$lap=false,$placeholder=""){
       parent::__construct($label,$showLabel,$lap,$placeholder);
       $this->type = "date";
   }
 }
+
 
 class TimeField extends InputField {
   function __construct($label,$showLabel=true,$lap=false,$placeholder=""){
@@ -114,12 +125,14 @@ class TimeField extends InputField {
   }
 }
 
+
 class DateTimeField extends InputField {
   function __construct($label,$showLabel=true,$lap=false,$placeholder=""){
       parent::__construct($label,$showLabel,$lap,$placeholder);
       $this->type = "datetime-local";
   }
 }
+
 
 class PasswordField extends InputField {
   function __construct($label,$showLabel=true,$lap=false,$placeholder=""){
@@ -137,6 +150,7 @@ class HiddenField extends InputField {
   }
 }
 
+
 /**
  * Render input field of type checkbox with value 0 or 1; 
  */
@@ -147,7 +161,7 @@ class BooleanField extends Field{
    * @var bool   $checked 
    * @var bool   $labelEnd If true Label tag will be after checkbox
    */
-  public $name,$labelEnd,$checked;
+  public $name,$label,$labelEnd,$checked;
   function __construct($label,$checked=true,$labelEnd=true){
     parent::__construct($label);
     $this->labelEnd = $labelEnd;
@@ -174,14 +188,14 @@ class BooleanField extends Field{
   }
   
   public function create_field(){
-    $idInput = $this->generateId(FIELD_ID_PREFIX,$this->label);
-    $idLabel = $this->generateId(FIELD_LABEL_ID_PREFIX,$this->label);
-    $idError = $this->generateId(ERROR_PREFIX,$this->label);
+    $idInput = $this->generateId(FIELD_ID_PREFIX,$this->name);
+    $idLabel = $this->generateId(FIELD_LABEL_ID_PREFIX,$this->name);
+    $idError = $this->generateId(ERROR_PREFIX,$this->name);
     $idArray = array($idLabel,$idInput);
     
     $labelTag = "";
     if(!empty($this->label)){
-      $labelTag = "<label for=$idInput class=\"form-check-label\"  id=\"$idArray[0]\">$this->label</label>";
+      $labelTag = "<label for='{$idInput}' class='".CHECKFIELD_LABEL_CLASS."'  id='{$idArray[0]}'>$this->label</label>";
     }
     
     $errors = "";
@@ -191,12 +205,13 @@ class BooleanField extends Field{
     
     $checked = $this->checked ?"checked":"";
     
-    $inputTag = "<input type='checkbox'   name='$this->name' value='1' class='form-check-input' id=\"$idArray[1]\"   $checked/>";
-    $errorTag = "<ul class='error error-list' id='$idError'>{$errors}</ul>";
+    $inputTag = "<input type='checkbox'   name='$this->name' value='1' class='".CHECKFIELD_CLASS."' id='{$idArray[1]}'   $checked/>";
+    $errorTag = "<ul class='".ERROR_CLASS."' id='{$idError}'>{$errors}</ul>";
     $fieldHtml = $this->labelEnd ? $inputTag.$labelTag.$errorTag:$labelTag.$inputTag.$errorTag;
-    return "<div class='form-field form-check'>".$fieldHtml."</div>";
+    return "<div class='form-field form-check'>{$fieldHtml}</div>";
   }
 }
+
 
 /**
  * Renders checkbox , radio field and select box .
@@ -210,67 +225,101 @@ class BooleanField extends Field{
  * 
  */
 class RadioGroup extends Field {
-  public $name,$values,$type,$labelEnd,$check,$title,$multiple,$value='';
-  function __construct($title,iterable $values,$type="radio",$check=0,$labelEnd=true,$multiple=''){
+  public $name,$choices,$type,$labelEnd,$title,$multiple,$value;
+  function __construct($title,iterable $choices,$value=null,$labelEnd=true,$multiple=false){
     $this->title = $title;
-    $this->values = $values;
-    $this->type = $type;
+    $this->choices = $choices;
     $this->labelEnd = $labelEnd;
-    $this->check = $check;
+    $this->value = $value;
     $this->multiple = $multiple;
   }
   
-  function create_field(){
-    $count=1;
-    $codeLine = '';
-    foreach($this->values as $value) {
-      if($this->check == $count) {
-        $checked="checked";
-        $selected = "selected";
-      } else {
-        $checked = " ";
-        $selected = " ";
+  public function setValue($value){
+    $values = array_column($this->choices,0);
+    in_array($value,$values)?$this->value = $value:null;
+    if($this->multiple && is_array($value)){
+      foreach($value as $key=>&$option) {
+       if(!in_array($option,$values)) unset($value[$key]);
       }
-      $form_value = $value[0];
-      $display_value = $value[1];
+      $this->value = $value;
+    }
+  }
+  
+  function create_field(){
+    $codeLine = '';
+    if($this->multiple){ $this->type = "checkbox";$this->name.='[]';}
+    else {$this->type = "radio";}
+    $count = 1;
+    foreach($this->choices as $value) {
+      if($this->multiple && is_array($this->value) && in_array($value[0],$this->value)) $checked="checked";
+      elseif($this->value == $value[0]) $checked="checked";
+      else $checked = "";
+      
+      $form_value = $value[0];//Value to display in value field and stored in database
+      $display_value = $value[1];//Displayed as field label in UI
       $idLabel = $this->generateId(FIELD_LABEL_ID_PREFIX,$form_value);
       $idInput = $this->generateId(FIELD_ID_PREFIX,$form_value)."-$count";
-      $ids = array($idLabel,$idInput);
       $container_id = $this->generateId(RADIOGROUP_ID_PREFIX,$this->name);
      
-      if($this->type=='select'){
-        $field = "<option value='$form_value' $selected>$display_value</option>";
-        $label = "";
-      } else {
-        $field = "<input  type=\"$this->type\" name=\"$this->name\" value=\"$form_value\" id=\"$ids[1]\" class='".FIELD_CLASS."' $checked /> ";
-        $label = "<label  for=\"$ids[1]\" class='".FIELD_LABEL_CLASS."' id=\"$ids[0]\">$display_value</label>";
-      }
+      $field = "<input  type='{$this->type}' name='{$this->name}' value='{$form_value}' id='{$idInput}' class='".RADIOFIELD_CLASS."' $checked /> ";
+      $label = "<label  for='{$idInput}' class='".RADIOFIELD_LABEL_CLASS."' id='{$idLabel}'>$display_value</label>";
       $codeLine .= $this->labelEnd?$field . $label : $label . $field;
-      $codeLine = "<div style='display:flex;flex-wrap:wrap; width:360px'>".$codeLine."</div>";
+      $codeLine = "<div id='{$container_id}' class='".RADIOGROUP_CLASS."'>{$codeLine}</div>";
       $count++;
     }
-    if($this->type=="select"){
-      $idContainer = $this->generateId(SELECTGROUP_ID_PREFIX,$this->name);
-     $errorId = $this->generateId(ERROR_PREFIX,$this->name);
-      $htmlCode = "<div class='form-field'>
-      <label for='$idContainer'>$this->title</label>
-      <select name='$this->name' id=\"$idContainer\" style='width:100%;padding:5px' class='" . SELECTGROUP_CLASS . " class-form-control' $this->multiple>" . $codeLine . "</select>
-      <span class='error' id='$errorId'></span><div>
-      ";
-    } else {
-    $idContainer = $this->generateId(RADIOGROUP_ID_PREFIX,$this->name);
-    $htmlCode = "<div  id=\"$idContainer\" class='form-field ".RADIOGROUP_CLASS."'>". $codeLine . "</div>";
-    }
+
+    $idContainer = $this->generateId(FIELD_CONTAINER_ID_PREFIX,$this->name);
+    $htmlCode = "<div  id='{$idContainer}' class='".FIELD_CONTAINER_CLASS."'>{$codeLine}</div>";
     return $htmlCode;
   }
 }//namespace
 
+/** Renders Select Box **/
+class SelectField extends Field {
+  public $name,$choices,$selected,$label,$multiple,$value='';
+  function __construct($label,iterable $choices,$selected=0,$multiple=false){
+    $this->label = $label;
+    $this->choices = $choices;
+    $this->selected = $selected;
+    $this->multiple = $multiple;
+  }
+  public function setValue($value){
+    $values = array_column($this->choices,0);
+    if($this->multiple && is_array($value)){
+      foreach($value as $key=>&$option) {
+       if(!in_array($option,$values)) unset($value[$key]);
+      }
+      $this->value = $value;
+    }
+    else {in_array($value,$values)?$this->value = $value:null;}
+  }
+  
+  public function create_field(){
+    if($this->multiple){$multiple = "multiple";$this->name.="[]";}
+    else {$multiple="";}
+    $labelID = $this->generateId(FIELD_LABEL_ID_PREFIX,$this->name);
+    $fieldID = $this->generateId(FIELD_ID_PREFIX,$this->name);
+    $fieldContainerID = $this->generateId(FIELD_CONTAINER_ID_PREFIX,$this->name);
+    $options = "";
+    $selected = "";
+    foreach($this->choices as $key=>$choice){
+      if($choice[0] == $this->selected || ($this->multiple && is_array($this->selected) && in_array($choice[0],$this->selected))) $selected = "selected";
+ 
+      $options .= "<option value='{$choice[0]}' {$selected}>{$choice[1]}</option>";
+      $selected = "";
+    }
+    $label   = "<label id='{$labelID}' for='{$fieldID}' class=''>$this->label</label>";
+    $field   = "<select name='{$this->name}' class='".SELECTGROUP_CLASS."' id='{$fieldID}' {$multiple}>$options</select>";
+    $htmlCode = "<div id='{$fieldContainerID}' class='".FIELD_CONTAINER_CLASS."'>$label $field</div> ";
+    return $htmlCode;
+  }
+}
 
 
 class FileField extends Field{
   public $label,$showLabel,$name,$validation,$value,$error_list,$multiple,$type,$upload_to;
   
-  function __construct($label,$value=[],$showLabel=true,$validation=['required'=>true],$error_list=array(),$multiple='',$upload_to=""){
+  function __construct($label,$value=[],$showLabel=true,$validation=['required'=>true],$error_list=array(),$multiple=false,$upload_to=""){
       parent::__construct($value,$validation,$error_list);
       $this->label = $label;
       $this->showLabel = $showLabel;
@@ -279,36 +328,27 @@ class FileField extends Field{
       $this->upload_to = $upload_to;
   }
   
-  public function setName($n){
-    $this->name = $n;
-  }
- 
- 
-  public function setErrorList($errors){
-    $this->error_list = $errors;
-  }
   public function create_field(){
     $idInput = $this->generateId(FIELD_ID_PREFIX,$this->label);
     $idLabel = $this->generateId(FIELD_LABEL_ID_PREFIX,$this->label);
     $idError = $this->generateId(ERROR_PREFIX,$this->label);
     $idArray = array($idLabel,$idInput);
-    $labell = "";
 
-    if(!empty($this->label) && $this->showLabel){
-      $labell = "<label class=\"class-form-label\"  id=\"$idArray[0]\">$this->label</label>";
+    if(!empty($this->label) && $this->showLabel)
+      $label= "<label class='".FIELD_LABEL_CLASS."'  id='{$idArray[0]}'>$this->label</label>";
+    else $label = "";
+    
+    $errors = "";
+    foreach($this->error_list as $error){
+      $errors.="<li>{$error}</li>";
     }
-      $errors = "";
-      foreach($this->error_list as $error){
-        $errors.="<li>{$error}</li>";
-      }
-      if($this->multiple=='multiple') {
-        $this->name .='[]';
-      }
-
-        $input = "<input  type='$this->type'   name='$this->name' class='class-form-control' id=\"$idArray[1]\"  style='display: block;width:100%; font-size:16px;'  {$this->multiple}/>
-          <ul class='error error-list' id='$idError'>{$errors}</ul>
-        ";
-    return  "<div class='form-field'>".$labell . $input."</div>";
+    if($this->multiple=='multiple') {$this->name .='[]';$multiple="multiple";}
+    else {$multiple="";}
+    
+    $input = "<input  type='{$this->type}'   name='{$this->name}' class='".FIELD_CLASS."' id='{$idArray[1]}'  {$multiple}/>
+              <ul class='".ERROR_CLASS."' id='{$idError}'>{$errors}</ul>
+             ";
+    return  "<div class='form-field'>{$label} {$input}</div>";
   }
 }
 

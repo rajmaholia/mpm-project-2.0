@@ -11,6 +11,7 @@ if(php_sapi_name()!="cli") {
 }
 
 define("DEBUG", true);
+
 /***  APPS **/
 define("APPS",[
   'mpm/admin',

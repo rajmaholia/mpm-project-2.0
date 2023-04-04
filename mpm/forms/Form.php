@@ -136,7 +136,7 @@ class Form {
         if(isset($this->formValues[$name]) &&  !in_array($name,$fileFields))
           $val->setValue($this->formValues[$name]);
         
-        if(isset(($this->formValues)) && isset($this->error_list[$name]))
+        if(isset($this->formValues) && isset($this->error_list[$name]))
           $val->setErrorList($this->error_list[$name]);
         
         $fieldCode .= $val->create_field();

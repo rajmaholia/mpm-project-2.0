@@ -57,9 +57,13 @@ switch($arguments[1]) {
     }
     try {
       $response = mysqli_query($conn,"insert into User (username,password,email,is_staff) values('$admin_username','$admin_password','$admin_email',1)");
-    } catch(Exception $e) {
-       echo $e->getMessage();
-       exit("\nQuitting ... \n");
+    } catch(\Exception $e) {
+      try {
+        mysqli_query($conn,"UPDATE User SET password='$admin_password',email='$admin_email',is_staff='1' WHERE username='$admin_username'");
+      } catch(Exception $e){
+         echo $e->getMessage();
+         exit("\nQuitting ... \n");
+      }
     }
     echo "SuperUser Created Successfully\n ";
     mysqli_close($conn);
@@ -71,7 +75,7 @@ switch($arguments[1]) {
     $db = DATABASE;
     try{
       $conn = mysqli_connect($db['host'],$db['username'],$db['password'],$db['database']);
-    }catch(Exception $e) {
+    }catch(\Exception $e) {
       exit("Database not configured Properly\n");
     }
     $migrations = glob($app_name."/migrations/*.php");
@@ -89,7 +93,7 @@ switch($arguments[1]) {
       try {
         read_query($conn,$sql);
         echo("Success  : Migrations ".$file." Applied\n\n");
-      } catch(Exception $e) {
+      } catch(\Exception $e) {
         echo "Error : ".mysqli_error($conn)."\n\n";
       }//try catch
     }

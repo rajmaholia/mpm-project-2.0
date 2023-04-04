@@ -2,10 +2,18 @@
 namespace Mpm\View;
 use Mpm\Core\TemplateEngine;
 
+/**
+ * Renders Templates with logic applied .
+ * @param array $server 
+ * @param string $template_name 
+ * @param array $vars Default null 
+ * @return string 
+ */
 function render($server,$template_name, $vars = null) {
   
-  $filename = TemplateEngine::resolve($template_name);
+  $filename = TemplateEngine::resolve($template_name); //gets first matched template name 
   if(is_array($filename) && $filename[0]==null) {
+   //Handles when template not found 
     if(DEBUG==true){
     $mpmException = array(
       "name"=>"template_does_not_exists",
@@ -21,10 +29,10 @@ function render($server,$template_name, $vars = null) {
     }
   }
   if (is_array($vars) && !empty($vars)) {
-    extract($vars);
+    extract($vars); //now these variable can be used in template by there key 
   }
-  
+  //starts buffering 
   ob_start();
   require($filename);
-  return ob_get_clean();
+  return ob_get_clean();//return buffer 
 }

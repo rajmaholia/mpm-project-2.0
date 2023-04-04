@@ -1,6 +1,12 @@
 <?php
 namespace Mpm\Urls;
 
+/**
+ * Return url-patterns written in  given file name (without .php)  
+ * 
+ * @param string $urlfilepath 
+ * @return array 
+ */
 function includes($urlfilepath) {
   $urlfilepath.=".php";
   try {
@@ -11,6 +17,11 @@ function includes($urlfilepath) {
   return $urlpatterns;
 }
 
+/**
+ * Redirect to specified path relative to BASE_URL that is http[s]://< domain or IP address with ports>/
+ * 
+ * @param string $path 
+ */
 function redirect($path) {
   if(substr($path,0,1)=="/") {
     $path = substr($path,1);
@@ -18,6 +29,11 @@ function redirect($path) {
  header("Location:".BASE_URL.$path);
 }
 
+/** Redirects to given url using header 
+ * parameter is absolute url of redirection 
+ * 
+ * @param string $url 
+ */
 function http_redirect($url) {
   header("Location:".$url);
 }

@@ -119,7 +119,7 @@ function change_user($server,$arguments){
       redirect(reverse('object_list', arguments:array("User")));
     }
   }
-  return render($server,'admin/auth/user_change_form.php', array('table'=>"User",'id'=>$id,'form'=>$form,'user'=>$user));
+  return render($server,'admin/auth/user_change_form.php', array('table'=>"User",'id'=>$id,'form'=>$form,'user'=>$user,'dbdata'=>$data));
 }
 
 /**

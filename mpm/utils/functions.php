@@ -3,7 +3,7 @@ namespace Mpm\Utils;
 
 
 /**
- * Truncates and tring to a given length and pads the string with '...' by default.
+ * Truncates the string to a given length and pads the string with '...' by default.
  * 
  * @param string $string 
  * @param int $limit 
@@ -21,6 +21,10 @@ function truncate($string, $limit, $pad = "...")
 }
 
 /**
+ * Quotes string with single quotes '<value>' . 
+ * 
+ * Generally Used to store data in database because datebase values needs to be quoted 
+ * 
  * @param string $value
  * @return string 
  */
@@ -29,14 +33,16 @@ function quote($value){
 }
 
 /**
- * Gets Multidimensional array and If there is any json value is the array , decodes it and returns modified array .
+ * Takes Two-Dimensional array and If there is any json value is the array , decodes it and returns modified array .
+ * 
+ * Eg. in db_read() , Actually we store php array in database as JSON string that needed to decoded again in array .
  * 
  * @param array $data 
  * @return array 
  */
 function normalize(array $data){
   foreach($data as &$array){
-   $array = normalize_one($array);
+   $array = normalize_one($array);//Normalize One-dimensional Array
   }
   return $data;
 }
