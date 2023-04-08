@@ -18,7 +18,6 @@ define(
       ],
     "FILES"=>[
       "mpm/contrib/auth/functions.php",
-      "mpm/forms/fields.php",
       ]
     ),
 );
@@ -30,5 +29,3 @@ $autoloader->autoload();
 require_once 'config/sessions.php';
 
 require_once 'config/urls.php';
-
-foreach(APPS as $app) {require_once(glob("$app/views.php")[0]);}

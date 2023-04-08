@@ -1,4 +1,0 @@
-<?php 
-use function Mpm\View\render;
-
-//write your views here 

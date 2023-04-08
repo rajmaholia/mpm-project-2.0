@@ -4,63 +4,59 @@ use function Mpm\Urls\path;
 $urlpatterns = [
   path(
     url:'/admin/login/',
-    view:'admin_login',
+    view:'AdminAuthController@admin_login',
     name:'admin_login'
   ),
-  path(
-    url:'/admin/(?P<table>\w+)/details/(?P<id>\d+)/',
-    view:'object_detail',
-    name:'object_detail'
-  ),
+  
   path(
     url:'/admin/User/new/',
-    view:'create_user',
+    view:'AdminAuthController@create_user',
     name:'create_user'
   ),
   path(
     url:'/admin/User/(?P<user>\d+)/auth/password-change/',
-    view:'change_password',
+    view:'AdminAuthController@change_password',
     name:'admin_password_change'
   ),
   
   path(
     url:'/admin/(?P<table>\w+)/new/',
-    view:'object_create',
+    view:'AdminController@object_create',
     name:'object_create'
   ),
   path(
     url:'/admin/User/edit/(?P<id>\d+)/',
-    view:'change_user',
+    view:'AdminAuthController@change_user',
     name:'change_user'
   ),
   path(
     url:'/admin/(?P<table>\w+)/edit/(?P<id>\d+)/',
-    view:'object_edit',
+    view:'AdminController@object_edit',
     name:'object_edit'
   ),
   path(
     url:'/admin/(?P<table>\w+)/delete/',
-    view:'object_delete',
+    view:'AdminController@object_delete',
     name:'object_delete'
   ),
   path(
     url:'/admin/(?P<table>\w+)/',
-    view:'object_list',
+    view:'AdminController@object_list',
     name:'object_list'
   ),
   path(
     url:'/admin/',
-    view:'admin_dashboard',
+    view:'AdminController@admin_dashboard',
     name:'admin_dashboard'
   ),
   path(
     url:'/404/',
-    view:'page_not_found',
+    view:'ErrorController@page_not_found',
     name:'404'
    ),
   path(
     url:'/permission-denied/',
-    view:'permission_denied',
+    view:'ErrorController@permission_denied',
     name:'permission_denied'
    ),
   path(

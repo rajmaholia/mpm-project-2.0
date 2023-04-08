@@ -22,6 +22,7 @@
 namespace Mpm\Forms;
 use Mpm\Validation\Validator;
 use Mpm\Handlers\FileUploadHandler as FUH;
+use Mpm\Forms\Fields\Field;
 
 class Form {
   public $formValues;
@@ -59,6 +60,7 @@ class Form {
       if($instance instanceof Field) continue;
       else unset($all_instances[$name]);
     }
+    unset($instance);
     return $all_instances;
   }
   
@@ -131,6 +133,7 @@ class Form {
     $fieldCode = "";
     $fileFields = FUH::fileFields($this);
     $instances = $this->instances(); //Field Instances
+
     foreach($instances as $name=>$val){
         $val->setName($name);
         if(isset($this->formValues[$name]) &&  !in_array($name,$fileFields))

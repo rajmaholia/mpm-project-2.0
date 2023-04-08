@@ -1,6 +1,0 @@
-<?php 
- use Mpm\Forms as forms;
- 
- //write your form structures extending forms\Form
- //delete it , if you don't need it.
- 

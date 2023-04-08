@@ -5,27 +5,27 @@ use function Mpm\Urls\path;
 $urlpatterns = [
   path(
     url:'/auth/login/',
-    view:'login',
+    view:'AuthController@login',
     name:'login'
      ),
   path(
     url:'/auth/signup/',
-    view:'signup',
+    view:'AuthController@signup',
     name:'signup'
    ),
   path(
     url:'/auth/logout/',
-    view:'logout',
+    view:'AuthController@logout',
     name:'logout'
    ),
   path(
     url:'/auth/password-change/',
-    view:'password_change',
+    view:'AuthController@password_change',
     name:'password_change'
    ),
   path(
     url:'/auth/password-change/done/',
-    view:'password_change_done',
+    view:'AuthController@password_change_done',
     name:'password_change_done'
    ),
 ];

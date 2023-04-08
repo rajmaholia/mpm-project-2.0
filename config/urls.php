@@ -11,6 +11,6 @@ path(
 $urlpatterns =  [
   ...includes('mpm/contrib/admin/urls'),//Admin Urls
   ...includes('mpm/contrib/auth/urls'),//Authentication
-  path('','home','home'),
+  path('','HomeController@home','home'),
 ];
 

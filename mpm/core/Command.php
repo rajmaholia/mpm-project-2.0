@@ -124,6 +124,7 @@ class Command {
       if(!isset($arguments[2])) exit("Usage :  `php manage createapp <app>`\n");
       else $app_name = $arguments[2];
       file_exists($app_name)?exit("App `$app_name` already Exists \n"):mkdir("$app_name/");
+      
       mkdir("$app_name/migrations");
       $migration_file = glob("mpm/conf/app_templates/migrations/*_tpl")[0];
       $files = glob("mpm/conf/app_templates/*_tpl");
