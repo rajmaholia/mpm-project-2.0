@@ -1,8 +1,8 @@
 <?php
 use function Mpm\View\render;
+use Mpm\Core\Request;
 
-
-function home($server){
+function home(Request $request){
   global $user;
-  return render($server,'home.php',array("user"=>$user));
+  return render($request,'home.php',array("user"=>$user));
 }

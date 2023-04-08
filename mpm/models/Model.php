@@ -1,5 +1,6 @@
 <?php
 namespace Mpm\Models;
+use Mpm\Forms as forms;
 
 class Model {
   protected $id;
@@ -15,7 +16,11 @@ class Model {
   public function getId() {
     return $this->id;
   }
-
+  
+  public function createModel(){
+    
+  }
+  
   public function setId($id) {
     $this->id = $id;
   }
@@ -103,8 +108,8 @@ class Model {
     }
   }
   
- public function generate_form(){
-  var_dump(get_object_vars($this));
+ public function render_form(){
+   get_object_vars(this);
  }
 }
 

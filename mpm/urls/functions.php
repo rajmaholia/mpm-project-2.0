@@ -9,12 +9,12 @@ namespace Mpm\Urls;
  */
 function includes($urlfilepath) {
   $urlfilepath.=".php";
-  try {
-    require_once($urlfilepath);
-  } catch(Exception $e) {
-    var_dump($e);
-  }
-  return $urlpatterns;
+  if (file_exists($urlfilepath)):
+      require_once($urlfilepath);
+      return $urlpatterns;
+  else : 
+      return [];
+  endif;
 }
 
 /**
@@ -23,9 +23,9 @@ function includes($urlfilepath) {
  * @param string $path 
  */
 function redirect($path) {
-  if(substr($path,0,1)=="/") {
-    $path = substr($path,1);
-  }
+  if (substr($path,0,1)=="/"):
+      $path = substr($path,1);
+  endif;
  header("Location:".BASE_URL.$path);
 }
 

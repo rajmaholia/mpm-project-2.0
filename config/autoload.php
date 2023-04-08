@@ -1,27 +1,24 @@
 <?php
 require_once 'mpm/core/Autoloader.php';
+require_once 'mpm/core/global_settings.php';
 require_once 'config/settings.php';
 require_once 'config/admin.php';
 
 use Mpm\Core\Autoloader;
 
+
+spl_autoload_register('Mpm\Core\Autoloader::classLoader');
 define(
   "AUTOLOAD",array(
     "DIRS"=>[
       "mpm/urls",
-      "mpm/core",
-      "mpm/session",
-      "mpm/utils",
-      "mpm/database",
-      "mpm/forms",
-      "mpm/handlers",
       "mpm/static",
-      "mpm/validation",
       "mpm/view",
       "mpm/template",
       ],
     "FILES"=>[
-      "mpm/auth/functions.php",
+      "mpm/contrib/auth/functions.php",
+      "mpm/forms/fields.php",
       ]
     ),
 );

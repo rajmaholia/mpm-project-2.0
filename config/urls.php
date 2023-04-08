@@ -9,8 +9,8 @@ path(
   ),*/
 
 $urlpatterns =  [
-  ...includes('mpm/admin/urls'),//Admin Urls
-  ...includes('mpm/auth/urls'),//Authentication
+  ...includes('mpm/contrib/admin/urls'),//Admin Urls
+  ...includes('mpm/contrib/auth/urls'),//Authentication
   path('','home','home'),
 ];
 

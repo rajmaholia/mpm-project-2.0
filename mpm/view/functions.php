@@ -1,7 +1,7 @@
 <?php
 namespace Mpm\View;
 use Mpm\Core\TemplateEngine;
-
+use Mpm\Core\Request;
 /**
  * Renders Templates with logic applied .
  * @param array $server 
@@ -9,7 +9,7 @@ use Mpm\Core\TemplateEngine;
  * @param array $vars Default null 
  * @return string 
  */
-function render($server,$template_name, $vars = null) {
+function render(Request $request,$template_name, $vars = null) {
   
   $filename = TemplateEngine::resolve($template_name); //gets first matched template name 
   if(is_array($filename) && $filename[0]==null) {
@@ -21,7 +21,7 @@ function render($server,$template_name, $vars = null) {
       "target"=>$template_name,
       "extra"=>array("title"=>"Mpm Searched for template in these Directories",'data'=>$filename[1])
       );
-    return render($server,"debug.php",array('mpm_exception'=>$mpmException));
+    return render($request,"debug.php",array('mpm_exception'=>$mpmException));
     } else {
       echo "<h1>Internal Server Error (501)</h1>";
       echo "<p>There is a problem in internal Server</p>";

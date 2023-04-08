@@ -243,4 +243,28 @@ public static function checkminlen($data,$length){
     $data = json_decode($string,true);
     return (json_last_error() == JSON_ERROR_NONE) ? ($return_data ? $data : TRUE) : FALSE;
   }
+  
+  public static function clean($data){
+    if(is_string($data)) return self::clean_input($data);
+    $cleaned_data = [];
+    foreach($data as $key=>$data){
+      $data = self::clean_input($data);
+      $cleaned_data[$key] = $data;
+    }
+    return $cleaned_data;
+  }
+  
+  /**
+   * Sanitizes User Input 
+   * 
+   * @param string $value 
+   * @return 
+   */
+  public static function clean_input($value){
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    return $value;
+  }
+  
 }//class Validator
