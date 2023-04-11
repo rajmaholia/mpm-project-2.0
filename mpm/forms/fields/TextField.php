@@ -4,7 +4,7 @@ namespace Mpm\Forms\Fields;
 class TextField extends Field {
   public $label,$rows,$cols,$showLabel,$lap,$placeholder,$name,$column,$validation,$value,$error_list;
   
-  function __construct($label,$rows=10,$cols=8,$showLabel=true,$lap=true,$placeholder="",$validation=['required'=>true],$value="",$error_list=array()){
+  function __construct($label,$rows=10,$cols=20,$showLabel=true,$lap=true,$placeholder="",$validation=['required'=>true],$value="",$error_list=array()){
     parent::__construct($label,$value,$validation,$error_list);
     $this->rows = $rows;
     $this->cols = $cols;

@@ -2,6 +2,7 @@
 namespace Mpm\View;
 use Mpm\Core\TemplateEngine;
 use Mpm\Core\Request;
+
 /**
  * Renders Templates with logic applied .
  * @param array $server 
@@ -28,9 +29,10 @@ function render(Request $request,$template_name, $vars = null) {
       exit();
     }
   }
+  
   if (is_array($vars) && !empty($vars)) {
     extract($vars); //now these variable can be used in template by there key 
-  }
+ }
   //starts buffering 
   ob_start();
   require($filename);

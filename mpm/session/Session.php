@@ -2,6 +2,10 @@
 namespace Mpm\Session;
 
 class Session {
+  /**
+   * Session Id 
+   */
+  public $id;
   
   public static function start(){
     session_start();
@@ -33,5 +37,14 @@ class Session {
   /* Unset Session Variable */
   public static function unsetVar($var) {
     unset($_SESSION[$var]);
+  }
+  
+  public function getId(){
+    return session_id();
+  }
+
+  
+  public function getToken(){
+    
   }
 }
