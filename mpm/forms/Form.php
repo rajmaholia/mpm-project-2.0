@@ -43,6 +43,10 @@ class Form {
     $this->formValues = $formdata;
   }
   
+  public function fill(...$mixed){
+    $this->fill_form(...$mixed);
+  }
+  
   public function reset_form() {
     $this->formValues = array();
   }
