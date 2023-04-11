@@ -11,14 +11,14 @@ use Mpm\Core\Request;
 
 class AdminController {
   public function admin_dashboard(Request $request){
-    global $user;
+    $user = $request->user;
     if($user->is_staff!=1)
     redirect(reverse('admin_login'));
     return render($request,'admin/dashboard.php', array('groups'=>MODEL_GROUPS,'user'=>$user));
   }
   
   public function object_list(Request $request, $arguments){
-    global $user;
+    $user = $request->user;
     if($user->is_staff!=1)
     redirect(reverse('admin_login'));
     
@@ -31,15 +31,18 @@ class AdminController {
   }
   
   public function object_create(Request $request,$arguments){
-    global $user;
-    if($user->is_staff!=1)
-      redirect(reverse('admin_login'));
+    $user = $request->user;
+    if($user->is_staff!=1) redirect(reverse('admin_login'));
+      
     $table = $arguments['table'];
-    //$table_data = MODEL_METADATA[$table];
+    
     if(!in_array($table,SITE_MODELS))  return render($request,'404.php');
-    if($table == "User") $formClass = "UserCreationForm";
-    else $formClass=$table."Form";
-    $form = new $formClass();
+    if($table == "User"):
+        $formClass = "UserCreationForm";
+    else :
+      $FormClass = MODEL_METADATA[$table]["form_class"];
+      $form = new $FormClass();
+    endif;
         
     $formEnctype = FUH::formEnctype($form);
     
@@ -70,15 +73,17 @@ class AdminController {
   }
   
   public function object_edit(Request $request,$arguments){
-    global $user;
+    $user = $request->user;
     if(!$user->is_staff) redirect(reverse('admin_login'));
       
     $table = $arguments['table'];//Current Table
   
     if(!in_array($table,SITE_MODELS))  return render($request,'404.php');
-    $formClass=$table."Form";
-      
-    $form = new $formClass();
+    
+    $FormClass = MODEL_METADATA[$table]["form_class"];
+    $form = new $FormClass();
+
+ 
     //Set form enctype for file upload support 
     $formEnctype = FUH::formEnctype($form);
     
@@ -114,7 +119,7 @@ class AdminController {
   }
   
   public function object_delete(Request $request,$args){
-    global $user;
+    $user = $request->user;
     if($user->is_staff!=1) redirect(reverse('admin_login'));
     
     if($request->getMethod()=="POST"){
