@@ -1,13 +1,15 @@
 <?php
 namespace Mpm\Core;
+use Mpm\Session\Session;
 
 class Request {
-    private $method;
+    public $method;
     private $uri;
     private $headers;
     private $body;
     public $POST;
     public $GET;
+    public $user;
 
     public function __construct($method, $uri, $headers, $body) {
         $this->method = $method;
@@ -16,8 +18,9 @@ class Request {
         $this->body = $body;
         $this->POST = $_POST;
         $this->GET = $_GET;
+        $this->user = (object)Session::getVar("user");
     }
-
+    
     public function getMethod() {
         return $this->method;
     }
