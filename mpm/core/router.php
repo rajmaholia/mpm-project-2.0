@@ -3,6 +3,8 @@ namespace Mpm\Core;
 use function Mpm\View\render;
 use function Mpm\Urls\{reverse,redirect};
 use Mpm\Contrib\Auth\AuthController;
+use Mpm\Core\Request;
+
 
 class Router { 
   
@@ -12,7 +14,6 @@ class Router {
    * @return array 
    */
   public static function matchedPattern($url,$patterns){
-    if(substr(trim($url),-1)!='/') $url.='/';// If Url doesn't ends with / append a '/' after URL
     $paths = array_column($patterns,0); //extract all paths only , from patterns
     for($i = 0;$i<count($patterns);$i++) {//Loop Over all patterns (regex)  to match against Request URL 
       $current_url = $patterns[$i][0];// Url route
@@ -24,13 +25,15 @@ class Router {
   }
   
   public static function process($url,$urlpatterns){
+    if(!str_ends_with($url,"/")) $url.="/";
     $pattern = self::matchedPattern($url,$urlpatterns);
+   
     if($pattern==false) exit(self::error('NoReverseMatch',$url,$urlpatterns));
+   
     $view_name = $pattern[1];
     $pattern[0] = empty($pattern[0])?"/":$pattern[0];
-    preg_match("@{$pattern[0]}@",$url,$matches);
-    $groups = array_filter($matches, "is_string", ARRAY_FILTER_USE_KEY);
-
+    preg_match("@{$pattern[0]}@",$url,$groups);
+    $groups = array_filter($groups, "is_string", ARRAY_FILTER_USE_KEY);
     $content = self::render($view_name,$groups);
     echo($content);
   }
@@ -43,7 +46,7 @@ class Router {
           "target"=>$url,
           "extra"=>array("title"=>"Mpm Tried in this order","data"=>stripcslashes(json_encode($urlpatterns)))
         );
-        echo(render($_SERVER,"debug.php",array("mpm_exception"=>$mpmException))); 
+        echo(render(new Request($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI'], getallheaders(), file_get_contents('php://input')),"debug.php",array("mpm_exception"=>$mpmException))); 
       }
       else {
         redirect(reverse('404'));
