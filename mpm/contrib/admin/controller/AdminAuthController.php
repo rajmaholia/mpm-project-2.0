@@ -10,7 +10,7 @@ use Mpm\Core\Request;
 
 class AdminAuthController {
   public function admin_login(Request $request){
-    global $user;
+    $user = $request->user;
     $form = new UserLoginForm();
     if($request->getMethod()=="POST"){
       $form->fill_form($request->POST);
@@ -46,7 +46,7 @@ class AdminAuthController {
    * @return string 
    */
   public function change_password(Request $request,$arguments){
-    global $user;
+    $user = $request->user;
     if($user->is_staff!=1) redirect(reverse('admin_login'));
     $id = $arguments["user"];
     $form = new PasswordChangeForm();
@@ -73,7 +73,7 @@ class AdminAuthController {
   }
   
   public function change_user(Request $request,$arguments){
-    global $user;
+    $user = $request->user;
     if(!$user->is_staff) redirect(reverse('admin_login'));
     $form = new UserChangeForm();
     $id = $arguments['id'];
@@ -93,7 +93,7 @@ class AdminAuthController {
   }
   
   public function create_user(Request $request){
-    global $user;
+    $user = $request->user;
     if(!$user->is_staff)
       redirect(reverse('admin_login'));
     $form = new UserCreationForm();
